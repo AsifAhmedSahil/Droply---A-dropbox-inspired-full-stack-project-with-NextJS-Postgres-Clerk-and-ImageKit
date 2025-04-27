@@ -1,29 +1,45 @@
-import { migrate } from "drizzle-orm/neon-http/migrator";
+/**
+ * Database Migration Script
+ *
+ * This script applies Drizzle migrations to your Neon PostgreSQL database.
+ * Run it with: npm run db:migrate
+ */
 
 import { drizzle } from "drizzle-orm/neon-http";
+import { migrate } from "drizzle-orm/neon-http/migrator";
 import { neon } from "@neondatabase/serverless";
-
 import * as dotenv from "dotenv";
 
+// Load environment variables from .env.local
 dotenv.config({ path: ".env" });
 
+// Validate environment variables
 if (!process.env.DATABASE_URL) {
-  throw new Error("Databae Url not provide in .env");
+  throw new Error("DATABASE_URL is not set in .env");
 }
 
+// Main migration function
 async function runMigration() {
+  console.log("🔄 Starting database migration...");
+  console.log(process.env.DATABASE_URL)
+
   try {
+    // Create a Neon SQL connection
     const sql = neon(process.env.DATABASE_URL!);
+
+    // Initialize Drizzle with the connection
     const db = drizzle(sql);
 
-    await migrate(db, {
-      migrationsFolder: "./drizzle",
-    });
-    console.log("all migration done");
+    // Run migrations from the drizzle folder
+    console.log("📂 Running migrations from ./drizzle folder");
+    await migrate(db, { migrationsFolder: "./drizzle" });
+
+    console.log("✅ Database migration completed successfully!");
   } catch (error) {
-    console.log("error from migration", error);
-    process.exit(1)
+    console.error("❌ Migration failed:", error);
+    process.exit(1);
   }
 }
 
+// Run the migration
 runMigration();
