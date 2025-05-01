@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 export const signInSchemas = z.object({
-  identifire: z
+  identifier: z
     .string()
     .min(1, { message: "Email is required" })
     .email({ message: "Please enter a valid mail" }),
