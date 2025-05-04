@@ -12,16 +12,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 
-import {
-  Button,
- 
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Divider,
-  Input,
-} from "@heroui/react";
+
 
 import {
   Mail,
@@ -32,6 +23,10 @@ import {
   EyeOff,
 } from "lucide-react";
 import Link from "next/link";
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { Divider } from "@heroui/divider";
+import { Input } from "@heroui/input";
+import { Button } from "@heroui/button";
 
 // here 2 approache - one is information submit and another one is OTP submit***
 export default function SignUpForm() {
@@ -193,7 +188,7 @@ export default function SignUpForm() {
   return (
     <Card className="w-full max-w-md border border-b-gray-200 bg-gray-50 shadow-xl">
       <CardHeader className="flex flex-col gap-1 pb-2 items-center">
-        <h1 className="text2xl font-bold text-gray-900">Create Your Account</h1>
+        <h1 className="text-2xl  font-bold text-gray-900">Create Your Account</h1>
         <p className="text-center text-gray-500">
           Sign up to start managing your images securely
         </p>
