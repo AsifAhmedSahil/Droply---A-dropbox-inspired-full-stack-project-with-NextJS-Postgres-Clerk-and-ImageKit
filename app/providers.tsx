@@ -16,7 +16,7 @@ const Providers = ({ children, themeProps }: ProviderProps) => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null; // Prevent hydration mismatch
+  if (!mounted) return null; 
 
   return (
     <HeroUIProvider>
