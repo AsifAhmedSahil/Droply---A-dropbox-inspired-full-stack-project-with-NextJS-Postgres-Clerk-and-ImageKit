@@ -37,7 +37,7 @@ export async function POST(request:NextRequest) {
         // create a folder in database***
 
         const folderData = {
-                id:uuid
+                
         }
 
         const [newFolder] = await db.insert(files).values(folderData).returning()
