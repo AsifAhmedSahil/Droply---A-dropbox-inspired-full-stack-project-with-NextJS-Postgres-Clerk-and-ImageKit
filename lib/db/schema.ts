@@ -14,7 +14,7 @@ export const files = pgTable("files",{
     // storage information
 
     fileUrl:text("file_url").notNull(), // use to access the file
-    thumbnailUrl:text("thumbnail_url").notNull(),
+    thumbnailUrl:text("thumbnail_url"),
 
     // ownership
 
