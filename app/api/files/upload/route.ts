@@ -1,8 +1,8 @@
 import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
 import { auth } from "@clerk/nextjs/server";
-import { error } from "console";
-import { and, eq, is } from "drizzle-orm";
+
+import { and, eq} from "drizzle-orm";
 import ImageKit from "imagekit";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
@@ -44,12 +44,8 @@ export async function POST(request: NextRequest) {
             eq(files.isFolder, true)
           )
         );
-    } else {
-      return NextResponse.json(
-        { error: "Parent Folder not found" },
-        { status: 401 }
-      );
-    }
+        
+    } 
 
     if (!parentId) {
       return NextResponse.json(
