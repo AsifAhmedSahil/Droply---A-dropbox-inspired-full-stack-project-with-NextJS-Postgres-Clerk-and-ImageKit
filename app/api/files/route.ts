@@ -1,32 +1,37 @@
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
-import { auth } from "@clerk/nextjs/server";
 import { eq, and, isNull } from "drizzle-orm";
-import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
+    // Check authentication
     const { userId } = await auth();
     if (!userId) {
-      return NextResponse.json({ error: "unauthoried" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    // Get query parameters
     const searchParams = request.nextUrl.searchParams;
     const queryUserId = searchParams.get("userId");
     const parentId = searchParams.get("parentId");
 
+    // Verify the user is requesting their own files
     if (!queryUserId || queryUserId !== userId) {
-      return NextResponse.json({ error: "unauthoried" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // fetch files from database
+    // Fetch files from database based on parentId
     let userFiles;
     if (parentId) {
-      // fetch from a specific folder
+      // Fetch files within a specific folder
       userFiles = await db
         .select()
         .from(files)
         .where(and(eq(files.userId, userId), eq(files.parentId, parentId)));
     } else {
+      // Fetch root-level files (where parentId is null)
       userFiles = await db
         .select()
         .from(files)
@@ -35,6 +40,10 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(userFiles);
   } catch (error) {
-    return NextResponse.json({error:"Error Fetching Files"},{status:500})
+    console.error("Error fetching files:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch files" },
+      { status: 500 }
+    );
   }
 }
