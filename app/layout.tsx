@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Providers
             themeProps={{
               attribute: "data-theme",
-              defaultTheme: "dark", // or "light" or "system"
+              defaultTheme: "dark", 
               enableSystem: false,
             }}
           >
